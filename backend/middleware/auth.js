@@ -5,7 +5,13 @@ function readUser(req) {
   if (!token) return null;
   try {
     const p = jwt.verify(token, process.env.JWT_SECRET);
-    return { id: p.id, name: p.name };
+    const isAdmin = (p.email && p.email.toLowerCase() === "pranumadab@gmail.com") || !!p.is_admin;
+    return {
+      id: p.id,
+      name: isAdmin ? "Admin" : p.name,
+      email: p.email,
+      is_admin: isAdmin,
+    };
   } catch (e) {
     return null;
   }

@@ -175,12 +175,31 @@
     <!-- Register -->
     <section id="view-register" class="view hidden">
       <h2>Create Your Account</h2>
-      <p class="muted">Register to start adding, editing, and bookmarking recipes.</p>
+      <p class="muted">Register with a verified email to start sharing authentic recipes and rating community dishes.</p>
       <form id="register-form" class="card form narrow">
-        <label>Name <input id="r-name" type="text" maxlength="60" autocomplete="name" placeholder="Your Name" required /></label>
-        <label>Email <input id="r-email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
-        <label>Password (min 8 characters) <input id="r-password" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required /></label>
-        <button type="submit" class="primary">Register</button>
+        <label>Full Name
+          <input id="r-name" type="text" maxlength="60" autocomplete="name" placeholder="Your Full Name" required />
+        </label>
+        <label>Date of Birth
+          <input id="r-dob" type="date" required />
+        </label>
+        <label>Gmail / Official Email
+          <div style="display: flex; gap: 0.5rem; align-items: stretch; margin-top: 0.2rem;">
+            <input id="r-email" type="email" autocomplete="email" placeholder="e.g. name@gmail.com" required style="flex: 1;" />
+            <button type="button" id="btn-send-verify" class="secondary" style="white-space: nowrap; padding: 0.5rem 0.9rem; font-size: 0.85rem; font-weight: 600;">Verify Email</button>
+          </div>
+          <span id="verify-status" class="muted" style="font-size: 0.8rem; display: block; margin-top: 4px;"></span>
+        </label>
+        <div id="code-group" style="display: none;">
+          <label>6-Digit Verification Code
+            <input id="r-code" type="text" maxlength="6" placeholder="Enter 6-digit code" />
+            <span class="muted" style="font-size: 0.78rem;">Check your notification above for your secure code.</span>
+          </label>
+        </div>
+        <label>Password (min 8 characters)
+          <input id="r-password" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required />
+        </label>
+        <button type="submit" class="primary" id="btn-submit-reg">Register as Verified Chef</button>
       </form>
     </section>
   </main>

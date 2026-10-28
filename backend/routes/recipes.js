@@ -34,7 +34,7 @@ const IMAGE_LIBRARY = {
   "birria": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80",
   "taco": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80",
   "enchiladas": "https://images.unsplash.com/photo-1534352956036-cd81e27dd615?auto=format&fit=crop&w=800&q=80",
-  "guacamole": "https://images.unsplash.com/photo-1604467794349-0b74285de7e7?auto=format&fit=crop&w=800&q=80",
+  "guacamole": "https://images.unsplash.com/photo-1541288097308-7b8e3f58c4c6?auto=format&fit=crop&w=800&q=80",
   "carnitas": "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=800&q=80",
   "chiles rellenos": "https://images.unsplash.com/photo-1584278860047-22db9ff82bed?auto=format&fit=crop&w=800&q=80",
   "pozole": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
@@ -119,7 +119,8 @@ const summary = (r, favs) => ({
   image_url: resolveImage(r),
   prep_time_minutes: r.prep_time_minutes,
   servings: r.servings,
-  author: r.users ? r.users.name : "Chef",
+  author: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")) ? "Admin" : (r.users ? r.users.name : "Chef"),
+  author_is_admin: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")),
   ingredient_count: r.recipe_ingredients ? r.recipe_ingredients.length : 0,
   is_favorite: favs.has(r.id),
 });
@@ -439,7 +440,8 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     if (fErr) throw fErr;
     if (!existing) return res.status(404).json({ error: "Recipe not found." });
 
-    if (existing.user_id !== req.user.id) {
+    const isAdmin = req.user && (req.user.email === "pranumadab@gmail.com" || req.user.is_admin);
+    if (existing.user_id !== req.user.id && !isAdmin) {
       return res.status(403).json({ error: "You can only delete your own recipes." });
     }
 
