@@ -33,7 +33,7 @@ const CATEGORY_DEFAULT_IMAGES = {
   Drink: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80",
 };
 
-const FALLBACK_FOOD_IMG = "https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=800&q=80";
+const FALLBACK_FOOD_IMG = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80";
 
 function getFlag(country) {
   return COUNTRY_FLAGS[country] || "🌍";
@@ -632,10 +632,34 @@ const LIVE_DISH_TEMPLATES = [
     reviews: [
       { author: "Ananya S.", rating: 5, date: "Just now", comment: "Extremely crunchy onion pakodis! Perfect with evening chai." }
     ]
+  },
+  {
+    match: ["veg frankie", "frankie", "kathi roll", "veg roll", "paneer roll", "paneer frankie"],
+    title: "Mumbai Street-Style Crispy Veg Frankie Roll",
+    description: "Famous Mumbai street roll: warm flaky roti wrapped around a spiced vegetable cutlet, layered with crunchy onions, pickled green chilies, mint chutney, and signature frankie masala.",
+    category: "Snack",
+    country: "India",
+    countryFlag: "🇮🇳",
+    prep_time_minutes: 20,
+    servings: 2,
+    image_url: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=800&q=80",
+    instructions: "1. Mash boiled potatoes with green peas, cumin, coriander, chaat masala, and chili powder into cutlet dough; shape into long cylindrical rolls and griddle with butter until crisp.\n2. Warm paratha or roti on a hot tawa with a light brush of butter.\n3. Slather tangy mint-coriander green chutney and sweet date chutney down the center.\n4. Place the hot crispy veg cutlet; scatter thinly sliced red onions and vinegar-soaked green chilies.\n5. Sprinkle generous pinch of chatpata Frankie masala; roll snugly in parchment paper and serve immediately!",
+    ingredients: [
+      { name: "Flaky Paratha / Roti wraps", quantity: "2" },
+      { name: "Boiled potatoes & peas", quantity: "1.5 cups mashed" },
+      { name: "Frankie Masala blend", quantity: "1.5 tbsp" },
+      { name: "Sliced red onions & green chilies", quantity: "1/2 cup" },
+      { name: "Tangy Mint & Tamarind Chutneys", quantity: "2 tbsp each" },
+      { name: "Amul Butter", quantity: "2 tbsp" }
+    ],
+    reviews: [
+      { author: "Sunil M.", rating: 5, date: "Just now", comment: "Tastes just like the famous Tibb's Frankie outside Mumbai colleges! Crisp roll and chatpata masala." }
+    ]
   }
 ];
 
 const FOOD_IMAGE_MAP = [
+  { match: ["veg frankie", "frankie", "kathi roll", "roll", "wrap", "burrito"], url: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=800&q=80" },
   { match: ["maggi", "maggie", "noodle", "chow mein", "chowmein", "ramen"], url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=800&q=80" },
   { match: ["pakodi", "pakoda", "fritter", "bajji", "bhajiya", "bhaji", "vada", "bonda"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" },
   { match: ["biryani", "pulao", "rice", "fried rice", "khichdi"], url: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" },
