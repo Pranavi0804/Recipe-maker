@@ -18,12 +18,20 @@
       <button data-view="mine" class="auth-only">My Recipes</button>
       <button data-view="favorites" class="auth-only">Favorites</button>
       <button data-view="form" class="auth-only add-btn">+ Add Recipe</button>
+      <button data-view="admin-hub" id="nav-admin-hub" class="admin-only-btn hidden">🛡️ Admin Recipe Tool</button>
       <button data-view="login" class="guest-only">Login</button>
       <button data-view="register" class="guest-only primary">Register</button>
       <span id="user-name" class="user-name auth-only"></span>
       <button id="logout-btn" class="auth-only">Logout</button>
     </nav>
   </header>
+
+  <div id="admin-banner" class="admin-banner hidden">
+    <div class="admin-banner-inner">
+      <span>🛡️ <strong>Super Admin Mode:</strong> Master recipe editing and global image replacement enabled. All changes publish live to every user.</span>
+      <button type="button" id="btn-quick-admin-hub" class="admin-banner-btn">Open Admin Recipe Tool ⚡</button>
+    </div>
+  </div>
 
   <main class="container">
     <div id="message" class="message hidden" role="status"></div>
@@ -203,6 +211,29 @@
         <button type="submit" class="primary" id="btn-submit-reg">Register as Verified Chef</button>
       </form>
     </section>
+    <!-- Admin Recipe Hub -->
+    <section id="view-admin-hub" class="view hidden">
+      <div class="hero">
+        <h1>🛡️ Super Admin Master Recipe Tool</h1>
+        <p>Replace photos, edit ingredients, update steps, or modify any recipe across the entire website. All changes immediately publish live to all visitors.</p>
+      </div>
+
+      <div class="toolbar" style="margin-bottom: 1.5rem;">
+        <input id="admin-hub-search" type="search" placeholder="Quickly search any recipe to change its photo..." aria-label="Search recipes" />
+        <select id="admin-hub-category">
+          <option value="">All Categories</option>
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+          <option value="Snack">Snack</option>
+          <option value="Dessert">Dessert</option>
+          <option value="Drink">Drink</option>
+        </select>
+        <button type="button" class="primary" id="btn-admin-hub-add">+ Add Brand New Recipe</button>
+      </div>
+
+      <div id="admin-hub-list" class="grid"></div>
+    </section>
   </main>
 
   <dialog id="confirm-dialog">
@@ -213,6 +244,41 @@
         <button value="no" class="secondary">Cancel</button>
       </div>
     </form>
+  </dialog>
+
+  <!-- Admin Quick Photo Replacement Tool Modal -->
+  <dialog id="admin-photo-dialog" class="admin-photo-modal">
+    <div class="admin-modal-box">
+      <div class="admin-modal-head">
+        <h3>🖼️ Change Recipe Image (Admin)</h3>
+        <button type="button" class="icon-close" id="btn-close-admin-photo" aria-label="Close">✕</button>
+      </div>
+      <p id="admin-photo-dish-title" class="admin-modal-dish-title"></p>
+
+      <div class="admin-preview-wrapper">
+        <img id="admin-photo-preview-img" src="" alt="Live Preview" />
+        <span class="preview-badge">Live Preview</span>
+      </div>
+
+      <div class="admin-form-group">
+        <label for="admin-photo-url-input">Image URL or Local Asset Name:
+          <input id="admin-photo-url-input" type="text" placeholder="Paste URL (e.g. Unsplash, Imgur, or medu-vada.png)..." autocomplete="off" />
+        </label>
+        <span class="muted" style="font-size: 0.8rem; display: block; margin-top: 4px;">
+          💡 You can paste any web image link or type local asset filenames (e.g. <code>fish-fry.png</code>, <code>medu-vada.png</code>, <code>mirchi-bajji.png</code>, <code>cacio-e-pepe.png</code>).
+        </span>
+      </div>
+
+      <div class="admin-presets-section">
+        <div class="presets-title">⚡ Quick 1-Click Food Photo Presets:</div>
+        <div id="admin-preset-chips" class="preset-chips"></div>
+      </div>
+
+      <div class="modal-footer-actions">
+        <button type="button" class="secondary" id="btn-cancel-admin-photo">Cancel</button>
+        <button type="button" class="primary" id="btn-save-admin-photo">💾 Save & Publish Globally</button>
+      </div>
+    </div>
   </dialog>
 </body>
 </html>

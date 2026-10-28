@@ -1,9 +1,34 @@
 const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const supabase = require("../supabase");
 const { optionalAuth, requireAuth } = require("../middleware/auth");
 const { CATEGORIES, isUuid, cleanRecipe } = require("../utils/validate");
 
 const router = express.Router();
+
+const OVERRIDES_FILE = path.join(__dirname, "../data/admin_overrides.json");
+
+function loadAdminOverrides() {
+  try {
+    if (fs.existsSync(OVERRIDES_FILE)) {
+      return JSON.parse(fs.readFileSync(OVERRIDES_FILE, "utf8"));
+    }
+  } catch (e) {
+    console.error("Error reading admin overrides file:", e.message);
+  }
+  return {};
+}
+
+function saveAdminOverrides(overrides) {
+  try {
+    const dir = path.dirname(OVERRIDES_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(OVERRIDES_FILE, JSON.stringify(overrides, null, 2), "utf8");
+  } catch (e) {
+    console.error("Error writing admin overrides file:", e.message);
+  }
+}
 
 // Explicitly specify the recipes -> users relationship
 const USER_RELATION = "users!recipes_user_id_fkey";
@@ -127,19 +152,81 @@ async function favoriteIds(userId) {
   return new Set(data.map((f) => f.recipe_id));
 }
 
-const summary = (r, favs) => ({
-  id: r.id,
-  title: r.title,
-  description: cleanDescription(r.description),
-  category: r.category,
-  country: resolveCountry(r),
-  image_url: resolveImage(r),
-  prep_time_minutes: r.prep_time_minutes,
-  servings: r.servings,
-  author: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")) ? "Admin" : (r.users ? r.users.name : "Chef"),
-  author_is_admin: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")),
-  ingredient_count: r.recipe_ingredients ? r.recipe_ingredients.length : 0,
-  is_favorite: favs.has(r.id),
+const summary = (r, favs) => {
+  const overrides = loadAdminOverrides();
+  const ov = overrides[r.id] || overrides[(r.title || "").toLowerCase()] || {};
+  return {
+    id: r.id,
+    title: ov.title || r.title,
+    description: cleanDescription(ov.description || r.description),
+    category: ov.category || r.category,
+    country: ov.country || resolveCountry(r),
+    image_url: ov.image_url || resolveImage(r),
+    prep_time_minutes: ov.prep_time_minutes !== undefined ? ov.prep_time_minutes : r.prep_time_minutes,
+    servings: ov.servings !== undefined ? ov.servings : r.servings,
+    author: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")) ? "Admin" : (r.users ? r.users.name : "Chef"),
+    author_is_admin: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")),
+    ingredient_count: r.recipe_ingredients ? r.recipe_ingredients.length : 0,
+    is_favorite: favs.has(r.id),
+  };
+};
+
+// GET /api/recipes/overrides
+router.get("/overrides", (req, res) => {
+  res.json({ overrides: loadAdminOverrides() });
+});
+
+// POST /api/recipes/admin/override
+router.post("/admin/override", requireAuth, async (req, res, next) => {
+  try {
+    const isAdmin = req.user && (req.user.email === "pranumadab@gmail.com" || req.user.is_admin);
+    if (!isAdmin) {
+      return res.status(403).json({ error: "Super Admin access required." });
+    }
+
+    const { id, title, image_url, description, category, country, prep_time_minutes, servings, ingredients, instructions } = req.body;
+    if (!id && !title) {
+      return res.status(400).json({ error: "Recipe ID or title required." });
+    }
+
+    const targetId = id || ("override-" + title.toLowerCase().replace(/[^a-z0-9]/g, "-"));
+    const overrides = loadAdminOverrides();
+    overrides[targetId] = {
+      ...(overrides[targetId] || {}),
+      ...(title ? { title } : {}),
+      ...(image_url !== undefined ? { image_url: image_url.trim() } : {}),
+      ...(description !== undefined ? { description } : {}),
+      ...(category ? { category } : {}),
+      ...(country ? { country } : {}),
+      ...(prep_time_minutes ? { prep_time_minutes: Number(prep_time_minutes) } : {}),
+      ...(servings ? { servings: Number(servings) } : {}),
+      ...(ingredients ? { ingredients } : {}),
+      ...(instructions ? { instructions } : {}),
+      updated_at: new Date().toISOString(),
+      updated_by: req.user.email
+    };
+
+    saveAdminOverrides(overrides);
+
+    if (isUuid(targetId)) {
+      try {
+        const updatePayload = {};
+        if (title) updatePayload.title = title;
+        if (image_url) updatePayload.image_url = image_url;
+        if (description) updatePayload.description = description;
+        if (category) updatePayload.category = category;
+        if (country) updatePayload.country = country;
+        if (instructions) updatePayload.instructions = instructions;
+        await supabase.from("recipes").update(updatePayload).eq("id", targetId);
+      } catch (e) {
+        console.warn("Supabase sync warning:", e.message);
+      }
+    }
+
+    res.json({ success: true, id: targetId, override: overrides[targetId] });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // GET /api/recipes?search=&category=&country=&mine=true
@@ -247,7 +334,11 @@ router.get("/match", optionalAuth, async (req, res, next) => {
 // GET /api/recipes/:id
 router.get("/:id", optionalAuth, async (req, res, next) => {
   try {
+    const overrides = loadAdminOverrides();
     if (!isUuid(req.params.id)) {
+      if (overrides[req.params.id]) {
+        return res.json({ recipe: overrides[req.params.id] });
+      }
       return res.status(404).json({ error: "Recipe not found." });
     }
 
@@ -261,25 +352,27 @@ router.get("/:id", optionalAuth, async (req, res, next) => {
     if (!r) return res.status(404).json({ error: "Recipe not found." });
 
     const favs = await favoriteIds(req.user && req.user.id);
+    const ov = overrides[r.id] || {};
 
     res.json({
       recipe: {
         id: r.id,
-        title: r.title,
-        description: cleanDescription(r.description),
-        category: r.category,
-        country: resolveCountry(r),
-        image_url: resolveImage(r),
-        prep_time_minutes: r.prep_time_minutes,
-        servings: r.servings,
-        instructions: r.instructions,
-        author: r.users ? r.users.name : "Chef",
-        ingredients: (r.recipe_ingredients || []).map((i) => ({
+        title: ov.title || r.title,
+        description: cleanDescription(ov.description || r.description),
+        category: ov.category || r.category,
+        country: ov.country || resolveCountry(r),
+        image_url: ov.image_url || resolveImage(r),
+        prep_time_minutes: ov.prep_time_minutes !== undefined ? ov.prep_time_minutes : r.prep_time_minutes,
+        servings: ov.servings !== undefined ? ov.servings : r.servings,
+        instructions: ov.instructions || r.instructions,
+        author: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")) ? "Admin" : (r.users ? r.users.name : "Chef"),
+        author_is_admin: (r.users && (r.users.email === "pranumadab@gmail.com" || r.users.name === "Admin")),
+        ingredients: ov.ingredients || (r.recipe_ingredients || []).map((i) => ({
           name: i.name,
           quantity: i.quantity,
         })),
         is_favorite: favs.has(r.id),
-        is_owner: !!req.user && req.user.id === r.user_id,
+        is_owner: (!!req.user && req.user.id === r.user_id) || (req.user && (req.user.email === "pranumadab@gmail.com" || req.user.is_admin)),
       },
     });
   } catch (err) {
@@ -363,7 +456,21 @@ router.post("/", requireAuth, async (req, res, next) => {
 // PUT /api/recipes/:id
 router.put("/:id", requireAuth, async (req, res, next) => {
   try {
+    const isAdmin = req.user && (req.user.email === "pranumadab@gmail.com" || req.user.is_admin);
+
     if (!isUuid(req.params.id)) {
+      if (isAdmin) {
+        const overrides = loadAdminOverrides();
+        overrides[req.params.id] = {
+          ...(overrides[req.params.id] || {}),
+          ...req.body,
+          id: req.params.id,
+          updated_at: new Date().toISOString(),
+          updated_by: req.user.email
+        };
+        saveAdminOverrides(overrides);
+        return res.json({ recipe: overrides[req.params.id], message: "Recipe updated globally by Admin." });
+      }
       return res.status(404).json({ error: "Recipe not found." });
     }
 
@@ -376,7 +483,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     if (fErr) throw fErr;
     if (!existing) return res.status(404).json({ error: "Recipe not found." });
 
-    if (existing.user_id !== req.user.id) {
+    if (existing.user_id !== req.user.id && !isAdmin) {
       return res.status(403).json({ error: "You can only edit your own recipes." });
     }
 
@@ -444,7 +551,15 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 // DELETE /api/recipes/:id
 router.delete("/:id", requireAuth, async (req, res, next) => {
   try {
+    const isAdmin = req.user && (req.user.email === "pranumadab@gmail.com" || req.user.is_admin);
+
     if (!isUuid(req.params.id)) {
+      if (isAdmin) {
+        const overrides = loadAdminOverrides();
+        overrides[req.params.id] = { is_deleted: true, updated_at: new Date().toISOString() };
+        saveAdminOverrides(overrides);
+        return res.json({ message: "Recipe removed globally by Admin." });
+      }
       return res.status(404).json({ error: "Recipe not found." });
     }
 
@@ -457,7 +572,6 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     if (fErr) throw fErr;
     if (!existing) return res.status(404).json({ error: "Recipe not found." });
 
-    const isAdmin = req.user && (req.user.email === "pranumadab@gmail.com" || req.user.is_admin);
     if (existing.user_id !== req.user.id && !isAdmin) {
       return res.status(403).json({ error: "You can only delete your own recipes." });
     }

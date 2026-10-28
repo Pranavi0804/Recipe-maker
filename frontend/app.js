@@ -139,12 +139,145 @@ function setState(container, text) {
   container.replaceChildren(h("div", { class: "state" }, text));
 }
 
+// ---------- Global Admin Recipe & Photo Overrides Storage ----------
+function getGlobalOverrides() {
+  try {
+    return JSON.parse(localStorage.getItem("recipe_maker_global_overrides") || "{}");
+  } catch (e) {
+    return {};
+  }
+}
+
+async function saveGlobalOverride(id, patch) {
+  const overrides = getGlobalOverrides();
+  overrides[id] = {
+    ...(overrides[id] || {}),
+    ...patch,
+    updated_at: new Date().toISOString()
+  };
+  localStorage.setItem("recipe_maker_global_overrides", JSON.stringify(overrides));
+
+  // Sync to backend if server is accessible
+  try {
+    await api("/recipes/admin/override", {
+      method: "POST",
+      body: { id, ...patch }
+    });
+  } catch (e) {
+    console.warn("Backend override sync (offline fallback active):", e.message);
+  }
+  return overrides[id];
+}
+
+const ADMIN_PHOTO_PRESETS = [
+  { name: "Fish Fry", url: "fish-fry.png" },
+  { name: "Medu Vada", url: "medu-vada.png" },
+  { name: "Sarva Pindi", url: "sarva-pindi.png" },
+  { name: "Mysore Bonda", url: "mysore-bonda.png" },
+  { name: "Maddur Vada", url: "maddur-vada.png" },
+  { name: "Punugulu", url: "punugulu.png" },
+  { name: "Palak Paneer", url: "palak-paneer.png" },
+  { name: "Gutti Vankaya", url: "gutti-vankaya.png" },
+  { name: "Gulab Jamun", url: "gulab-jamun.png" },
+  { name: "Mirchi Bajji", url: "mirchi-bajji.png" },
+  { name: "Penne Pasta", url: "cacio-e-pepe.png" },
+  { name: "Dum Biryani", url: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" },
+  { name: "Butter Chicken", url: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80" },
+  { name: "Crispy Dosa", url: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=800&q=80" },
+  { name: "Pav Bhaji", url: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=800&q=80" },
+  { name: "Chole Bhature", url: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=800&q=80" },
+  { name: "Dal Makhani", url: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80" },
+  { name: "Pepper Chicken", url: "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=800&q=80" },
+  { name: "Hakka Noodles", url: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80" },
+  { name: "Spaghetti", url: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=800&q=80" },
+  { name: "Pizza Margherita", url: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=800&q=80" },
+  { name: "Tacos", url: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80" },
+  { name: "French Onion Soup", url: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80" },
+  { name: "Mango Lassi", url: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=800&q=80" },
+];
+
+function openAdminPhotoModal(recipe) {
+  state.adminTargetRecipe = recipe;
+  const dialog = $("#admin-photo-dialog");
+  if (!dialog) return;
+
+  $("#admin-photo-dish-title").textContent = `Recipe: "${recipe.title}"`;
+  const input = $("#admin-photo-url-input");
+  const preview = $("#admin-photo-preview-img");
+
+  input.value = recipe.image_url || "";
+  preview.src = recipe.image_url || FALLBACK_FOOD_IMG;
+  preview.onerror = () => { preview.src = FALLBACK_FOOD_IMG; };
+
+  input.oninput = () => {
+    const val = input.value.trim();
+    preview.src = val || FALLBACK_FOOD_IMG;
+  };
+
+  const chipsContainer = $("#admin-preset-chips");
+  if (chipsContainer) {
+    chipsContainer.replaceChildren(
+      ...ADMIN_PHOTO_PRESETS.map((p) => {
+        return h(
+          "button",
+          {
+            type: "button",
+            class: "preset-chip",
+            onclick: () => {
+              input.value = p.url;
+              preview.src = p.url;
+            },
+          },
+          p.name
+        );
+      })
+    );
+  }
+
+  dialog.showModal();
+}
+window.openAdminPhotoModal = openAdminPhotoModal;
+window.closeAdminPhotoModal = closeAdminPhotoModal;
+
+function closeAdminPhotoModal() {
+  const dialog = $("#admin-photo-dialog");
+  if (dialog) dialog.close();
+}
+
+async function handleAdminPhotoSave() {
+  const recipe = state.adminTargetRecipe;
+  if (!recipe) return;
+  const input = $("#admin-photo-url-input");
+  const newUrl = input.value.trim();
+  if (!newUrl) {
+    return notify("Please enter an image URL or choose a preset.", "error");
+  }
+
+  recipe.image_url = newUrl;
+  await saveGlobalOverride(recipe.id, { image_url: newUrl, title: recipe.title });
+
+  closeAdminPhotoModal();
+  notify(`🎉 Image for "${recipe.title}" updated globally! Visible to all users.`);
+
+  // If detail view currently shows this recipe, update image instantly
+  const detailImg = $(".detail-img");
+  if (detailImg) detailImg.src = newUrl;
+
+  // Refresh active recipe views
+  if (state.reload) state.reload();
+}
+
 // ---------- Local Fallback Data Storage ----------
 function getLocalRecipes() {
   const custom = JSON.parse(localStorage.getItem("recipe_maker_custom") || "[]");
   const defaults = window.DEFAULT_RECIPES || [];
   const live = state.liveRecipes || [];
-  return [...custom, ...live, ...defaults];
+  const overrides = getGlobalOverrides();
+
+  const all = [...custom, ...live, ...defaults];
+  return all
+    .filter((r) => !overrides[r.id]?.is_deleted)
+    .map((r) => (overrides[r.id] ? { ...r, ...overrides[r.id] } : r));
 }
 
 function saveLocalRecipe(recipe) {
@@ -175,10 +308,17 @@ function show(view) {
 }
 
 function updateAuthUI() {
+  const isAdm = isUserAdmin(state.user);
   document.querySelectorAll(".auth-only").forEach((e) => e.classList.toggle("hidden", !state.user));
   document.querySelectorAll(".guest-only").forEach((e) => e.classList.toggle("hidden", !!state.user));
+
+  const adminBanner = $("#admin-banner");
+  if (adminBanner) adminBanner.classList.toggle("hidden", !isAdm);
+  const adminHubBtn = $("#nav-admin-hub");
+  if (adminHubBtn) adminHubBtn.classList.toggle("hidden", !isAdm);
+
   if (state.user) {
-    if (isUserAdmin(state.user)) {
+    if (isAdm) {
       $("#user-name").textContent = "Hi, Admin 🛡️";
     } else {
       $("#user-name").textContent = "Hi, " + state.user.name;
@@ -189,12 +329,17 @@ function updateAuthUI() {
 }
 
 function go(view) {
-  if (["mine", "favorites", "form"].includes(view) && !state.user) {
+  if (["mine", "favorites", "form", "admin-hub"].includes(view) && !state.user) {
     notify("Please log in or register to access this section.", "error");
     return show("login");
   }
+  if (view === "admin-hub" && !isUserAdmin(state.user)) {
+    notify("Access restricted to Super Admin (pranumadab@gmail.com).", "error");
+    return go("browse");
+  }
   show(view);
   if (view === "browse") loadBrowse();
+  if (view === "admin-hub") loadAdminHub();
   if (view === "mine") loadList("/recipes?mine=true", "#mine-list", "You have not added any recipes yet. Click '+ Add Recipe' above to publish one!");
   if (view === "favorites") loadList("/favorites", "#favorites-list", "No favorites yet. Tap the heart icon on any recipe to save it here.");
   if (view === "form") openForm(null);
@@ -210,6 +355,7 @@ function recipeCard(r) {
   const points = getChefPoints(r);
   const rank = r.chef_rank || getChefRank(points, isAuthorAdmin);
   const rating = r.rating || 4.9;
+  const isAdm = isUserAdmin(state.user);
 
   const heart = h(
     "button",
@@ -274,7 +420,39 @@ function recipeCard(r) {
         { class: "card-actions" },
         h("button", { class: "primary", type: "button", onclick: () => openDetail(r.id) }, "View recipe"),
         state.user ? heart : null
-      )
+      ),
+      isAdm
+        ? h(
+            "div",
+            { class: "admin-card-bar" },
+            h(
+              "button",
+              {
+                type: "button",
+                class: "btn-admin-quick-img",
+                title: "Quick Replace Photo",
+                onclick: (e) => {
+                  e.stopPropagation();
+                  openAdminPhotoModal(r);
+                },
+              },
+              "🖼️ Replace Photo"
+            ),
+            h(
+              "button",
+              {
+                type: "button",
+                class: "btn-admin-edit",
+                title: "Edit Recipe Details",
+                onclick: (e) => {
+                  e.stopPropagation();
+                  openForm(r);
+                },
+              },
+              "✏️ Edit (Admin)"
+            )
+          )
+        : null
     )
   );
 }
@@ -1140,7 +1318,30 @@ async function openDetail(id) {
       )
     );
   }
-  if (r.is_owner || (state.user && r.author === state.user.name)) {
+  if (userIsAdmin) {
+    actionButtons.push(
+      h(
+        "button",
+        {
+          class: "primary",
+          type: "button",
+          style: "background: #059669; font-weight: 700;",
+          onclick: () => openAdminPhotoModal(r),
+        },
+        "🖼️ Change Photo (Admin)"
+      ),
+      h(
+        "button",
+        {
+          class: "secondary",
+          type: "button",
+          style: "font-weight: 700;",
+          onclick: () => openForm(r),
+        },
+        "✏️ Edit Recipe (Admin)"
+      )
+    );
+  } else if (r.is_owner || (state.user && r.author === state.user.name)) {
     actionButtons.push(h("button", { class: "secondary", type: "button", onclick: () => openForm(r) }, "Edit Recipe"));
   }
   if (canDelete) {
@@ -1201,14 +1402,24 @@ async function deleteRecipe(r) {
   if (!(await confirmDialog(promptText))) return;
   try {
     await api("/recipes/" + r.id, { method: "DELETE" });
+    if (isAdm) {
+      const overrides = getGlobalOverrides();
+      overrides[r.id] = { is_deleted: true, updated_at: new Date().toISOString() };
+      localStorage.setItem("recipe_maker_global_overrides", JSON.stringify(overrides));
+    }
     notify("Recipe deleted successfully.");
     go(state.lastView === "detail" ? "browse" : state.lastView);
   } catch (e) {
     let custom = JSON.parse(localStorage.getItem("recipe_maker_custom") || "[]");
     custom = custom.filter((item) => item.id !== r.id);
     localStorage.setItem("recipe_maker_custom", JSON.stringify(custom));
-    if (isAdm && window.DEFAULT_RECIPES) {
-      window.DEFAULT_RECIPES = window.DEFAULT_RECIPES.filter((item) => item.id !== r.id);
+    if (isAdm) {
+      const overrides = getGlobalOverrides();
+      overrides[r.id] = { is_deleted: true, updated_at: new Date().toISOString() };
+      localStorage.setItem("recipe_maker_global_overrides", JSON.stringify(overrides));
+      if (window.DEFAULT_RECIPES) {
+        window.DEFAULT_RECIPES = window.DEFAULT_RECIPES.filter((item) => item.id !== r.id);
+      }
     }
     notify("Recipe deleted successfully.");
     go(state.lastView === "detail" ? "browse" : state.lastView);
@@ -1241,7 +1452,10 @@ function addIngredientRow(name = "", quantity = "") {
 
 function openForm(recipe) {
   state.editingId = recipe ? recipe.id : null;
-  $("#form-title").textContent = recipe ? "Edit Recipe" : "Add Recipe";
+  const isAdm = isUserAdmin(state.user);
+  $("#form-title").textContent = recipe
+    ? (isAdm ? `Edit "${recipe.title}" (Admin 🛡️)` : "Edit Recipe")
+    : (isAdm ? "Add Recipe (Admin 🛡️)" : "Add Recipe");
   $("#f-title").value = recipe ? recipe.title : "";
   $("#f-description").value = recipe ? recipe.description : "";
   $("#f-country").value = recipe ? recipe.country || "India" : "India";
@@ -1261,6 +1475,7 @@ function openForm(recipe) {
   }
   show("form");
 }
+window.openForm = openForm;
 
 async function saveRecipe(e) {
   e.preventDefault();
@@ -1307,22 +1522,61 @@ async function saveRecipe(e) {
 
   try {
     if (state.editingId) {
-      await api("/recipes/" + state.editingId, { method: "PUT", body });
-      notify("Recipe updated successfully!");
+      if (isAdm) {
+        await saveGlobalOverride(state.editingId, body);
+        notify(`🎉 Recipe "${body.title}" updated globally by Admin!`);
+      } else {
+        await api("/recipes/" + state.editingId, { method: "PUT", body });
+        notify("Recipe updated successfully!");
+      }
     } else {
       await api("/recipes", { method: "POST", body });
       notify("Recipe published successfully! Now visible to everyone on the platform.");
     }
-    go("mine");
+    go(isAdm ? "browse" : "mine");
   } catch (err) {
     body.id = state.editingId || "local-" + Date.now();
     body.is_owner = true;
-    saveLocalRecipe(body);
-    notify("Recipe published successfully! Now visible to everyone on the platform.");
-    go("mine");
+    if (isAdm && state.editingId) {
+      await saveGlobalOverride(state.editingId, body);
+    } else {
+      saveLocalRecipe(body);
+    }
+    notify(isAdm ? `🎉 Recipe "${body.title}" updated globally by Admin!` : "Recipe published successfully! Now visible to everyone on the platform.");
+    go(isAdm ? "browse" : "mine");
   } finally {
     btn.disabled = false;
   }
+}
+
+// ---------- Super Admin Recipe Hub View ----------
+function loadAdminHub() {
+  const box = $("#admin-hub-list");
+  const searchInput = $("#admin-hub-search");
+  const catSelect = $("#admin-hub-category");
+  setState(box, "Loading Admin Recipe Hub...");
+
+  function renderHub() {
+    let recipes = getLocalRecipes();
+    const q = (searchInput ? searchInput.value : "").trim().toLowerCase();
+    const cat = catSelect ? catSelect.value : "";
+    if (q) {
+      recipes = recipes.filter(
+        (r) =>
+          r.title.toLowerCase().includes(q) ||
+          (r.description && r.description.toLowerCase().includes(q)) ||
+          (r.category || "").toLowerCase().includes(q)
+      );
+    }
+    if (cat) {
+      recipes = recipes.filter((r) => r.category === cat);
+    }
+    renderList(box, recipes, "No recipes found matching your filter.");
+  }
+
+  if (searchInput) searchInput.oninput = renderHub;
+  if (catSelect) catSelect.onchange = renderHub;
+  renderHub();
 }
 
 // ---------- "What can I cook?" Matcher ----------
@@ -1593,6 +1847,52 @@ function init() {
     const q = $("#match-input").value.trim();
     runMatch(q);
   });
+
+  // Admin Photo Modal controls
+  const btnCloseAdminPhoto = $("#btn-close-admin-photo");
+  if (btnCloseAdminPhoto) btnCloseAdminPhoto.addEventListener("click", closeAdminPhotoModal);
+
+  const btnCancelAdminPhoto = $("#btn-cancel-admin-photo");
+  if (btnCancelAdminPhoto) btnCancelAdminPhoto.addEventListener("click", closeAdminPhotoModal);
+
+  const btnSaveAdminPhoto = $("#btn-save-admin-photo");
+  if (btnSaveAdminPhoto) btnSaveAdminPhoto.addEventListener("click", handleAdminPhotoSave);
+
+  const btnQuickAdminHub = $("#btn-quick-admin-hub");
+  if (btnQuickAdminHub) btnQuickAdminHub.addEventListener("click", () => go("admin-hub"));
+
+  const btnAdminHubAdd = $("#btn-admin-hub-add");
+  if (btnAdminHubAdd) btnAdminHubAdd.addEventListener("click", () => openForm(null));
+
+  // Close modal when clicking outside dialog backdrop
+  const photoDialog = $("#admin-photo-dialog");
+  if (photoDialog) {
+    photoDialog.addEventListener("click", (e) => {
+      const rect = photoDialog.getBoundingClientRect();
+      const isInDialog = (
+        rect.top <= e.clientY &&
+        e.clientY <= rect.top + rect.height &&
+        rect.left <= e.clientX &&
+        e.clientX <= rect.left + rect.width
+      );
+      if (!isInDialog) {
+        closeAdminPhotoModal();
+      }
+    });
+  }
+
+  // Sync server admin overrides on startup
+  api("/recipes/overrides")
+    .then((data) => {
+      if (data && data.overrides) {
+        const local = getGlobalOverrides();
+        localStorage.setItem(
+          "recipe_maker_global_overrides",
+          JSON.stringify({ ...local, ...data.overrides })
+        );
+      }
+    })
+    .catch(() => {});
 
   // Real Email Verification Flow
   let generatedCode = null;
