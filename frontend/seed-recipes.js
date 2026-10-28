@@ -416,7 +416,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 28,
     chef_points: 175,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=800&q=80",
+    image_url: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Andhra_famous_mirchi_bajji.JPG",
     instructions: "1. Slit large mild green chilies down the center; deseed and stuff with roasted carom seed and tamarind powder.\n2. Whisk gram flour (besan), rice flour, carom seeds, baking soda, and water into a smooth, thick batter.\n3. Dip stuffed chilies in batter and deep fry until 80% cooked; remove and cool slightly.\n4. Cut each fried chili into 1-inch bite pieces.\n5. Flash-fry cut pieces in smoking hot oil until crunchy; toss with chopped onions, chat masala, and fresh lemon juice.",
     ingredients: [
       { name: "Large mild green chilies (Mirchi)", quantity: "8" },

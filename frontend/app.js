@@ -587,8 +587,80 @@ const LIVE_DISH_TEMPLATES = [
     reviews: [
       { author: "Nour K.", rating: 5, date: "Yesterday", comment: "Crispy on the outside, vibrant green and herbaceous inside. Truly authentic!" }
     ]
+  },
+  {
+    match: ["maggi", "maggie", "masala maggi"],
+    title: "Street-Style Masala Maggi Noodles (Pahadi Style)",
+    description: "Iconic 2-minute Maggi noodles elevated with golden butter, sautéed onions, juicy tomatoes, green peas, crunchy carrots, and extra roasted Maggi tastemaker masala.",
+    category: "Snack",
+    country: "India",
+    countryFlag: "🇮🇳",
+    prep_time_minutes: 10,
+    servings: 2,
+    image_url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=800&q=80",
+    instructions: "1. Heat 1.5 tbsp butter in a pan; sauté finely chopped onions, green chilies, and ginger for 1 minute.\n2. Add diced tomatoes, green peas, and carrots; cook for 2 minutes until softened.\n3. Sprinkle extra red chili powder, turmeric, and 2 sachets of Maggi tastemaker.\n4. Pour 1.5 cups of boiling water; break noodle cakes into quarters and stir in.\n5. Cook on medium-high flame until noodles are saucy and tender (about 2-3 minutes). Crown with a slice of butter and chopped coriander; serve piping hot!",
+    ingredients: [
+      { name: "Maggi Noodles", quantity: "2 packs (with tastemaker)" },
+      { name: "Desi Butter", quantity: "2 tbsp" },
+      { name: "Onion & Tomato", quantity: "1 each finely chopped" },
+      { name: "Green peas & Carrots", quantity: "1/4 cup each" },
+      { name: "Green chili & Fresh coriander", quantity: "for garnish" }
+    ],
+    reviews: [
+      { author: "Rahul T.", rating: 5, date: "Just now", comment: "The extra butter and roasted veggies made it taste exactly like roadside hill-station Maggi! Super delicious." }
+    ]
+  },
+  {
+    match: ["pakodi", "pakoda", "onion pakodi", "kanda bhaji", "bhajiya"],
+    title: "Crispy Golden Street-Style Onion Pakodi",
+    description: "Classic Indian tea-stall fritters made from thinly sliced onions tossed in spiced gram flour (besan), rice flour, carom seeds, and curry leaves, fried to an irresistible crunch.",
+    category: "Snack",
+    country: "India",
+    countryFlag: "🇮🇳",
+    prep_time_minutes: 15,
+    servings: 3,
+    image_url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+    instructions: "1. Thinly slice onions and mix with salt, chili powder, carom seeds, ginger, and curry leaves. Squeeze gently to release moisture.\n2. Sprinkle besan and rice flour to coat onion strands without adding extra water.\n3. Drop loose clusters into medium-hot oil.\n4. Fry until deep golden brown and shatteringly crisp throughout.\n5. Drain on paper towels and serve hot with fried green chilies and mint chutney.",
+    ingredients: [
+      { name: "Thinly sliced onions", quantity: "3 large" },
+      { name: "Gram flour (Besan)", quantity: "1 cup" },
+      { name: "Rice flour", quantity: "2 tbsp (for crunch)" },
+      { name: "Carom seeds (Ajwain)", quantity: "1 tsp" },
+      { name: "Curry leaves & Green chilies", quantity: "finely chopped" },
+      { name: "Oil for deep frying", quantity: "As needed" }
+    ],
+    reviews: [
+      { author: "Ananya S.", rating: 5, date: "Just now", comment: "Extremely crunchy onion pakodis! Perfect with evening chai." }
+    ]
   }
 ];
+
+const FOOD_IMAGE_MAP = [
+  { match: ["maggi", "maggie", "noodle", "chow mein", "chowmein", "ramen"], url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=800&q=80" },
+  { match: ["pakodi", "pakoda", "fritter", "bajji", "bhajiya", "bhaji", "vada", "bonda"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" },
+  { match: ["biryani", "pulao", "rice", "fried rice", "khichdi"], url: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" },
+  { match: ["curry", "paneer", "dal", "gravy", "masala", "korma", "kofta", "butter chicken"], url: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80" },
+  { match: ["chicken", "mutton", "fish", "meat", "kebab", "tikka", "tandoori"], url: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80" },
+  { match: ["pizza", "calzone"], url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" },
+  { match: ["pasta", "spaghetti", "macaroni", "lasagna", "penne"], url: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" },
+  { match: ["burger", "sandwich", "toast"], url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" },
+  { match: ["cake", "pastry", "pudding", "halwa", "dessert", "sweet", "kheer", "ice cream", "gulab jamun"], url: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80" },
+  { match: ["shake", "drink", "lassi", "juice", "smoothie", "tea", "coffee", "soda", "sharbat"], url: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" },
+  { match: ["dosa", "idli", "paratha", "pancake", "waffle", "puri", "kulcha", "naan"], url: "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=800&q=80" },
+  { match: ["taco", "burrito", "nachos", "fajita", "quesadilla"], url: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=800&q=80" },
+  { match: ["salad", "greens"], url: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" },
+  { match: ["soup", "stew", "broth", "shorba"], url: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80" },
+  { match: ["samosa", "chaat", "kachori", "pani puri"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" }
+];
+
+function resolveDynamicFoodImage(qLower, category) {
+  for (const item of FOOD_IMAGE_MAP) {
+    if (item.match.some((m) => qLower.includes(m))) {
+      return item.url;
+    }
+  }
+  return CATEGORY_DEFAULT_IMAGES[category] || FALLBACK_FOOD_IMG;
+}
 
 function generateDynamicDish(rawQuery, countryHint, categoryHint) {
   const query = rawQuery.trim();
@@ -622,14 +694,11 @@ function generateDynamicDish(rawQuery, countryHint, categoryHint) {
     category = "Dessert";
   } else if (qLower.includes("breakfast") || qLower.includes("pancake") || qLower.includes("dosa") || qLower.includes("idli") || qLower.includes("upma") || qLower.includes("paratha") || qLower.includes("toast")) {
     category = "Breakfast";
-  } else if (qLower.includes("snack") || qLower.includes("fry") || qLower.includes("pakoda") || qLower.includes("samosa") || qLower.includes("bajji") || qLower.includes("chaat") || qLower.includes("manchur") || qLower.includes("momo")) {
+  } else if (qLower.includes("snack") || qLower.includes("fry") || qLower.includes("pakoda") || qLower.includes("pakodi") || qLower.includes("samosa") || qLower.includes("bajji") || qLower.includes("chaat") || qLower.includes("manchur") || qLower.includes("momo") || qLower.includes("maggi") || qLower.includes("maggie")) {
     category = "Snack";
   }
 
-  let img = CATEGORY_DEFAULT_IMAGES[category] || FALLBACK_FOOD_IMG;
-  if (category === "Drink") img = "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80";
-  if (category === "Dessert") img = "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80";
-  if (category === "Snack") img = "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=800&q=80";
+  const img = resolveDynamicFoodImage(qLower, category);
 
   return {
     id: "live-" + Date.now(),
@@ -1253,46 +1322,164 @@ function runMatch(ingredientQuery) {
     });
 }
 
+// ---------- Authentic Email & User Validation ----------
+function isAuthenticEmail(email) {
+  if (!email || typeof email !== "string") return false;
+  const clean = email.trim().toLowerCase();
+
+  // Basic RFC email check
+  if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i.test(clean)) return false;
+
+  const parts = clean.split("@");
+  if (parts.length !== 2) return false;
+  const username = parts[0];
+  const domain = parts[1];
+
+  // Username length must be reasonable
+  if (username.length < 3 || username.length > 35) return false;
+
+  // Reject random keyboard mash like "kdhsh", "qwrty", "zxcvb" (Real names/emails have vowels or numbers)
+  if (!/[aeiou0-9]/i.test(username)) {
+    return false;
+  }
+
+  // Reject long consonant mash (5+ consecutive consonants like "kdhsh" or "bcdfgh")
+  if (/[bcdfghjklmnpqrstvwxyz]{5,}/i.test(username)) {
+    return false;
+  }
+
+  // Reject disposable/fake email domains
+  const blockedDomains = [
+    "fake.com", "test.com", "tempmail.com", "10minutemail.com",
+    "mailinator.com", "trashmail.com", "guerrillamail.com", "dispostable.com"
+  ];
+  if (blockedDomains.some((d) => domain.includes(d))) return false;
+
+  return true;
+}
+
+function getRegisteredUsers() {
+  try {
+    return JSON.parse(localStorage.getItem("recipe_maker_registered_users") || "[]");
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveRegisteredUser(u) {
+  const list = getRegisteredUsers();
+  const idx = list.findIndex((item) => item.email.toLowerCase() === u.email.toLowerCase());
+  if (idx >= 0) {
+    list[idx] = u;
+  } else {
+    list.push(u);
+  }
+  localStorage.setItem("recipe_maker_registered_users", JSON.stringify(list));
+}
+
 // ---------- Auth handlers ----------
 async function authSubmit(path, body) {
-  const isAdmin = body.email && body.email.toLowerCase() === ADMIN_EMAIL;
-  try {
-    const data = await api(path, { method: "POST", body });
-    state.user = data.user;
-    if (state.user && state.user.email && state.user.email.toLowerCase() === ADMIN_EMAIL) {
-      state.user.is_admin = true;
-      state.user.name = "Admin";
+  const isLogin = path.includes("login");
+  const email = (body.email || "").trim().toLowerCase();
+  const isAdmin = email === ADMIN_EMAIL;
+
+  // 1. Super Admin (pranumadab@gmail.com) always logs in with full Admin powers
+  if (isAdmin) {
+    const adminUser = {
+      id: "admin-super",
+      name: "Admin",
+      email: ADMIN_EMAIL,
+      is_admin: true,
+    };
+    state.user = adminUser;
+    localStorage.setItem("recipe_maker_session_user", JSON.stringify(adminUser));
+    updateAuthUI();
+    notify("Welcome back, Admin 🛡️!");
+    go("browse");
+    return;
+  }
+
+  // 2. Strict LOGIN validation for non-admin accounts
+  if (isLogin) {
+    // Check if the email address is authentic or fake gibberish
+    if (!isAuthenticEmail(email)) {
+      return notify("❌ Invalid email format. No account exists with '" + email + "'.", "error");
     }
+
+    // Try backend authentication if available
+    try {
+      const data = await api(path, { method: "POST", body });
+      if (data && data.user) {
+        state.user = data.user;
+        localStorage.setItem("recipe_maker_session_user", JSON.stringify(state.user));
+        updateAuthUI();
+        notify("Welcome back, " + state.user.name + "!");
+        go("browse");
+        return;
+      }
+    } catch (apiErr) {
+      if (apiErr.status === 401 || (apiErr.message && apiErr.message.includes("Incorrect"))) {
+        return notify("❌ Incorrect email or password.", "error");
+      }
+    }
+
+    // Verify against registered verified users
+    const registered = getRegisteredUsers();
+    const existing = registered.find((u) => u.email.toLowerCase() === email);
+    if (!existing) {
+      return notify("❌ No account found with " + email + ". Please click 'Register' and verify your email first.", "error");
+    }
+
+    if (existing.password && existing.password !== body.password) {
+      return notify("❌ Incorrect password for " + email + ".", "error");
+    }
+
+    state.user = {
+      id: existing.id || "user-" + Date.now(),
+      name: existing.name || email.split("@")[0],
+      email: existing.email,
+      is_admin: false,
+    };
     localStorage.setItem("recipe_maker_session_user", JSON.stringify(state.user));
     updateAuthUI();
-    notify(isUserAdmin(state.user) ? "Welcome back, Admin 🛡️!" : "Welcome, " + state.user.name + "!");
+    notify("Welcome back, " + state.user.name + "!");
     go("browse");
-  } catch (err) {
-    // If running frontend standalone (file:/// or Live Server), or if server has network/DB issue:
-    // Seamlessly authenticate locally, guaranteeing instant access for the Admin!
-    const isNetworkOrServerError =
-      state.useLocalFallback ||
-      !err.status ||
-      err.status === 404 ||
-      err.status >= 500 ||
-      (err.message && (err.message.includes("fetch") || err.message.includes("Something went wrong")));
+    return;
+  }
 
-    if (isNetworkOrServerError || isAdmin) {
-      const mockUser = {
-        id: isAdmin ? "admin-super" : "local-user-" + Date.now(),
-        name: isAdmin ? "Admin" : body.name || body.email.split("@")[0],
-        email: body.email,
-        is_admin: isAdmin,
-      };
-      state.user = mockUser;
-      localStorage.setItem("recipe_maker_session_user", JSON.stringify(mockUser));
+  // 3. REGISTRATION handler
+  try {
+    const data = await api(path, { method: "POST", body });
+    if (data && data.user) {
+      state.user = data.user;
+      saveRegisteredUser({ name: body.name, email, password: body.password, dob: body.dob });
+      localStorage.setItem("recipe_maker_session_user", JSON.stringify(state.user));
       updateAuthUI();
-      notify(isAdmin ? "Welcome back, Admin 🛡️!" : "Welcome, " + mockUser.name + "!");
+      notify("🎉 Account verified & registered! Welcome, " + state.user.name + "!");
       go("browse");
       return;
     }
-    notify(err.message, "error");
+  } catch (err) {
+    if (err.status === 409 || (err.message && err.message.includes("already registered"))) {
+      return notify("❌ This email is already registered. Please go to Login.", "error");
+    }
   }
+
+  // Register locally after strict code verification
+  const newUser = {
+    id: "user-" + Date.now(),
+    name: body.name,
+    email: body.email,
+    password: body.password,
+    dob: body.dob,
+    is_admin: false,
+  };
+  saveRegisteredUser(newUser);
+  state.user = { id: newUser.id, name: newUser.name, email: newUser.email, is_admin: false };
+  localStorage.setItem("recipe_maker_session_user", JSON.stringify(state.user));
+  updateAuthUI();
+  notify("🎉 Account verified & registered! Welcome, " + newUser.name + "!");
+  go("browse");
 }
 
 async function logout() {
@@ -1355,16 +1542,10 @@ function init() {
     btnSendVerify.addEventListener("click", async () => {
       const email = $("#r-email").value.trim().toLowerCase();
       const statusEl = $("#verify-status");
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        statusEl.textContent = "⚠️ Please enter a valid email address.";
+      if (!isAuthenticEmail(email)) {
+        statusEl.textContent = "❌ Please enter a genuine, authentic email (e.g. personal Gmail). Gibberish names like 'kdhsh' are not allowed.";
         statusEl.style.color = "var(--err)";
-        return;
-      }
-      const disallowed = ["fake.com", "test.com", "tempmail.com", "10minutemail.com", "mailinator.com"];
-      if (disallowed.some((d) => email.includes(d))) {
-        statusEl.textContent = "❌ Temporary/fake email domains are not allowed. Please use an authentic email like Gmail.";
-        statusEl.style.color = "var(--err)";
-        return;
+        return notify("Please enter a real, authentic Gmail address.", "error");
       }
 
       btnSendVerify.disabled = true;
@@ -1377,7 +1558,7 @@ function init() {
       }
       verifiedEmail = email;
       $("#code-group").style.display = "block";
-      statusEl.textContent = `✅ Verification code generated for ${email}!`;
+      statusEl.textContent = `✅ Authentic email verified! Verification code generated for: ${email}`;
       statusEl.style.color = "var(--ok)";
       notify(`Verification code for ${email}: ${generatedCode}`);
       btnSendVerify.disabled = false;
@@ -1388,14 +1569,25 @@ function init() {
   // Auth forms
   $("#login-form").addEventListener("submit", (e) => {
     e.preventDefault();
-    authSubmit("/auth/login", { email: $("#l-email").value, password: $("#l-password").value });
+    const email = $("#l-email").value.trim();
+    const password = $("#l-password").value;
+    if (!email || !password) {
+      return notify("Please enter both email and password.", "error");
+    }
+    authSubmit("/auth/login", { email, password });
   });
 
   $("#register-form").addEventListener("submit", (e) => {
     e.preventDefault();
+    const name = $("#r-name").value.trim();
     const email = $("#r-email").value.trim().toLowerCase();
     const code = ($("#r-code") ? $("#r-code").value.trim() : "");
     const dob = $("#r-dob").value;
+    const password = $("#r-password").value;
+
+    if (name.length < 2) {
+      return notify("Please enter your real full name.", "error");
+    }
 
     if (!dob) {
       return notify("Please enter your Date of Birth.", "error");
@@ -1406,15 +1598,24 @@ function init() {
       return notify("You must be at least 10 years old to register.", "error");
     }
 
+    if (!isAuthenticEmail(email)) {
+      return notify("❌ Invalid email format. Please provide a real Gmail address.", "error");
+    }
+
     if (!generatedCode || email !== verifiedEmail || code !== generatedCode) {
-      return notify("Please click 'Verify Email' and enter the matching 6-digit code.", "error");
+      return notify("⚠️ Verification required: Click 'Verify Email' and enter the matching 6-digit code.", "error");
+    }
+
+    const registered = getRegisteredUsers();
+    if (registered.some((u) => u.email.toLowerCase() === email)) {
+      return notify("❌ This email is already registered. Please go to Login.", "error");
     }
 
     authSubmit("/auth/register", {
-      name: $("#r-name").value.trim(),
+      name,
       email,
       dob,
-      password: $("#r-password").value,
+      password,
     });
   });
 

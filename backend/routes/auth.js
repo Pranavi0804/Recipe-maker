@@ -22,8 +22,11 @@ const DISALLOWED_DOMAINS = ["fake.com", "test.com", "tempmail.com", "10minutemai
 function isValidEmailDomain(email) {
   const parts = email.split("@");
   if (parts.length !== 2) return false;
+  const username = parts[0].toLowerCase();
   const domain = parts[1].toLowerCase();
   if (DISALLOWED_DOMAINS.some((d) => domain.includes(d))) return false;
+  if (!/[aeiou0-9]/i.test(username)) return false; // reject no-vowel gibberish like kdhsh
+  if (/[bcdfghjklmnpqrstvwxyz]{5,}/i.test(username)) return false;
   return domain.includes(".");
 }
 
