@@ -687,9 +687,17 @@ const LIVE_DISH_TEMPLATES = [
 
 const FOOD_IMAGE_MAP = [
   { match: ["fish fry", "fried fish", "tawa fish", "chepala vepudu", "fish", "chepala", "prawn", "seafood"], url: "fish-fry.png" },
+  { match: ["medu vada", "garelu"], url: "medu-vada.png" },
+  { match: ["sarva pindi", "thapala chekka"], url: "sarva-pindi.png" },
+  { match: ["mysore bonda", "bonda"], url: "mysore-bonda.png" },
+  { match: ["maddur vada"], url: "maddur-vada.png" },
+  { match: ["punugulu", "punukulu"], url: "punugulu.png" },
+  { match: ["palak paneer", "saag paneer"], url: "palak-paneer.png" },
+  { match: ["gutti vankaya", "stuffed brinjal"], url: "gutti-vankaya.png" },
+  { match: ["gulab jamun"], url: "gulab-jamun.png" },
   { match: ["veg frankie", "frankie", "kathi roll", "roll", "wrap", "burrito"], url: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=800&q=80" },
   { match: ["maggi", "maggie", "noodle", "chow mein", "chowmein", "ramen"], url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=800&q=80" },
-  { match: ["pakodi", "pakoda", "fritter", "bajji", "bhajiya", "bhaji", "vada", "bonda"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" },
+  { match: ["pakodi", "pakoda", "fritter", "bajji", "bhajiya", "bhaji", "vada"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" },
   { match: ["biryani", "pulao", "rice", "fried rice", "khichdi"], url: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" },
   { match: ["curry", "paneer", "dal", "gravy", "masala", "korma", "kofta"], url: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80" },
   { match: ["chicken", "tandoori chicken", "tikka", "butter chicken"], url: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80" },

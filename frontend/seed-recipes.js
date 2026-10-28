@@ -78,7 +78,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 32,
     chef_points: 175,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
+    image_url: "medu-vada.png",
     instructions: "1. Grind soaked urad dal with minimal water into an airy, fluffy batter using a grinder or mixer.\n2. Beat vigorously with hands for 3 minutes to incorporate air bubbles.\n3. Fold in cracked black peppercorns, fresh coconut bits, chopped ginger, and curry leaves.\n4. Wet hands, shape batter into a donut ring with a hole in the center, and drop into hot oil.\n5. Deep-fry on medium flame until evenly deep golden and crispy. Dip in piping hot sambar.",
     ingredients: [
       { name: "Whole white urad dal", quantity: "2 cups soaked" },
@@ -189,7 +189,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 34,
     chef_points: 160,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=800&q=80",
+    image_url: "punugulu.png",
     instructions: "1. Take thick leftover idli or dosa batter; fold in a spoon of rice flour for crispiness.\n2. Add finely chopped onions, green chilies, grated ginger, cumin seeds, and fresh curry leaves.\n3. Heat oil in a kadai for deep frying.\n4. Drop small coin-sized balls of batter into medium-hot oil.\n5. Fry evenly until deep golden brown and crunchy. Drain and serve immediately with hot chutney.",
     ingredients: [
       { name: "Idli or Dosa batter", quantity: "2 cups thick" },
@@ -387,7 +387,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 35,
     chef_points: 185,
     chef_rank: "👑 Grand Culinary Master",
-    image_url: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
+    image_url: "sarva-pindi.png",
     instructions: "1. Soak chana dal in warm water for 30 minutes; coarsely crush roasted peanuts.\n2. In a wide bowl, mix rice flour, soaked chana dal, crushed peanuts, sesame seeds, chopped green chilies, curry leaves, and ginger-garlic paste into a soft dough.\n3. Grease a deep heavy bottom pan (sarva pindi kadai) with oil.\n4. Press dough evenly along the bottom and sides; poke multiple holes across the surface.\n5. Pour small drops of oil into each hole; cover and cook on medium flame for 12-15 minutes until bottom is deep golden and crackling crisp.",
     ingredients: [
       { name: "Rice flour", quantity: "2 cups" },
@@ -527,7 +527,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 26,
     chef_points: 155,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
+    image_url: "mysore-bonda.png",
     instructions: "1. Whisk sour curd (yogurt) with salt and baking soda until frothy.\n2. Fold in all-purpose flour and rice flour; beat vigorously for 4 minutes to incorporate air.\n3. Mix in cumin seeds, cracked black pepper, chopped ginger, and coconut bits.\n4. Wet fingertips, scoop round dollops of batter, and drop into medium-hot oil.\n5. Gently stir until bondas puff into spherical golden balls. Serve with spicy red coconut chutney.",
     ingredients: [
       { name: "All-purpose flour (Maida)", quantity: "1.5 cups" },
@@ -555,7 +555,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 23,
     chef_points: 165,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
+    image_url: "maddur-vada.png",
     instructions: "1. In a bowl, combine semolina (rava), rice flour, maida, sliced onions, minced ginger, curry leaves, and green chilies.\n2. Pour smoking hot oil over the flour mixture to make it flaky (moyan).\n3. Sprinkle warm water gradually to form a stiff dough.\n4. Flatten small portions into thin patties on greased paper.\n5. Deep-fry on medium flame until edges are shatteringly crisp and golden brown.",
     ingredients: [
       { name: "Semolina (Rava)", quantity: "1 cup" },
@@ -730,7 +730,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 33,
     chef_points: 185,
     chef_rank: "👑 Grand Culinary Master",
-    image_url: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80",
+    image_url: "gutti-vankaya.png",
     instructions: "1. Slit baby brinjals in a four-way plus (+) keeping stems attached; soak in salted water to prevent darkening.\n2. Dry roast peanuts, sesame seeds, grated coconut, coriander seeds, and cumin; grind into a rich, thick paste with tamarind and salt.\n3. Stuff each slit brinjal generously with the ground masala.\n4. Heat oil in a pan, crackle mustard seeds and curry leaves; sauté onions until translucent.\n5. Add stuffed brinjals, remaining paste, and 1 cup water. Cover and slow-simmer for 18 minutes until brinjals turn buttery soft.",
     ingredients: [
       { name: "Small purple baby brinjals", quantity: "8" },
@@ -1070,7 +1070,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 30,
     chef_points: 175,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
+    image_url: "palak-paneer.png",
     instructions: "1. Blanch washed spinach in boiling water for 2 minutes, then immediately plunge into ice-cold water to retain emerald color.\n2. Puree blanched spinach with green chili into a smooth sauce.\n3. Sauté cumin seeds, generous minced garlic, and onions in butter until golden.\n4. Add pureed tomatoes, garam masala, and spinach puree; simmer 5 minutes.\n5. Slide in fresh paneer cubes and finish with a swirl of fresh cream and kasuri methi.",
     ingredients: [
       { name: "Fresh baby spinach", quantity: "500g" },
@@ -1486,7 +1486,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 55,
     chef_points: 220,
     chef_rank: "👑 Grand Culinary Master",
-    image_url: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=80",
+    image_url: "gulab-jamun.png",
     instructions: "1. Knead fresh khoya (mawa) and paneer with a pinch of flour and cardamom into a smooth, crack-free dough.\n2. Roll into small marble-sized round balls.\n3. Deep-fry on low flame in ghee, swirling gently until evenly deep golden brown.\n4. Transfer hot jamuns directly into warm saffron-rose sugar syrup and steep for 30 minutes.\n5. Serve two warm, syrup-soaked jamuns in a bowl with a cold scoop of rich vanilla ice cream.",
     ingredients: [
       { name: "Khoya / Mawa", quantity: "250g" },
