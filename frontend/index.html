@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recipe Maker | Authentic Global & Indian Recipes</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="seed-recipes.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" id="brand-logo" style="cursor: pointer;">🍳 Recipe Maker</div>
+    <button class="menu-btn" id="menu-btn" aria-label="Toggle menu">☰</button>
+    <nav id="nav" class="nav">
+      <button data-view="browse" class="active">Browse</button>
+      <button data-view="match">What can I cook?</button>
+      <button data-view="mine" class="auth-only">My Recipes</button>
+      <button data-view="favorites" class="auth-only">Favorites</button>
+      <button data-view="form" class="auth-only add-btn">+ Add Recipe</button>
+      <button data-view="login" class="guest-only">Login</button>
+      <button data-view="register" class="guest-only primary">Register</button>
+      <span id="user-name" class="user-name auth-only"></span>
+      <button id="logout-btn" class="auth-only">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="message" class="message hidden" role="status"></div>
+
+    <!-- Browse -->
+    <section id="view-browse" class="view">
+      <div class="hero">
+        <h1>Discover Authentic World Recipes</h1>
+        <p>Explore curated culinary specialties from India, Italy, Mexico, China, and France — or find what you can cook from your pantry!</p>
+      </div>
+
+      <form id="browse-form" class="toolbar">
+        <input id="search-input" type="search" placeholder="Search by recipe name or keyword..." maxlength="60" aria-label="Search recipes" />
+        <select id="country-filter" aria-label="Filter by country">
+          <option value="">All Countries 🌍</option>
+          <option value="India">India 🇮🇳</option>
+          <option value="Italy">Italy 🇮🇹</option>
+          <option value="Mexico">Mexico 🇲🇽</option>
+          <option value="China">China 🇨🇳</option>
+          <option value="France">France 🇫🇷</option>
+        </select>
+        <select id="category-filter" aria-label="Filter by category">
+          <option value="">All Categories</option>
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
+          <option value="Snack">Snack</option>
+          <option value="Dessert">Dessert</option>
+          <option value="Drink">Drink</option>
+        </select>
+        <button type="submit" class="primary">Search</button>
+      </form>
+
+      <div id="browse-list" class="grid"></div>
+    </section>
+
+    <!-- Match -->
+    <section id="view-match" class="view hidden">
+      <h2>What can I cook?</h2>
+      <p class="muted">Type the ingredients you currently have at home, separated by commas (e.g., chicken, tomato, butter).</p>
+      <form id="match-form" class="toolbar">
+        <input id="match-input" type="text" placeholder="e.g. paneer, onion, tomato" maxlength="200" aria-label="Ingredients you have" required />
+        <button type="submit" class="primary">Find recipes</button>
+      </form>
+      <div id="match-list" class="grid"></div>
+    </section>
+
+    <!-- My recipes -->
+    <section id="view-mine" class="view hidden">
+      <div class="section-header">
+        <h2>My Recipes</h2>
+        <button type="button" class="primary" id="btn-add-mine">+ Add New Recipe</button>
+      </div>
+      <p class="muted">Recipes you have created and shared with the community.</p>
+      <div id="mine-list" class="grid"></div>
+    </section>
+
+    <!-- Favorites -->
+    <section id="view-favorites" class="view hidden">
+      <h2>My Favorites</h2>
+      <p class="muted">Recipes you have bookmarked for quick access.</p>
+      <div id="favorites-list" class="grid"></div>
+    </section>
+
+    <!-- Detail -->
+    <section id="view-detail" class="view hidden">
+      <button id="back-btn" class="link-btn">← Back to recipes</button>
+      <article id="detail-content" class="card detail"></article>
+    </section>
+
+    <!-- Add / Edit form -->
+    <section id="view-form" class="view hidden">
+      <h2 id="form-title">Add Recipe</h2>
+      <p class="muted">Share your own recipe with others on the platform.</p>
+      <form id="recipe-form" class="card form" novalidate>
+        <label>Title
+          <input id="f-title" type="text" placeholder="e.g. Homemade Tandoori Paneer" maxlength="100" required />
+        </label>
+
+        <label>Short description (optional)
+          <input id="f-description" type="text" placeholder="Brief summary or story of the dish" maxlength="300" />
+        </label>
+
+        <div class="row">
+          <label>Country / Cuisine
+            <select id="f-country" required>
+              <option value="India" selected>India 🇮🇳</option>
+              <option value="Italy">Italy 🇮🇹</option>
+              <option value="Mexico">Mexico 🇲🇽</option>
+              <option value="China">China 🇨🇳</option>
+              <option value="France">France 🇫🇷</option>
+              <option value="Other">Other 🌍</option>
+            </select>
+          </label>
+
+          <label>Category
+            <select id="f-category" required>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner" selected>Dinner</option>
+              <option value="Snack">Snack</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Drink">Drink</option>
+            </select>
+          </label>
+
+          <label>Prep time (minutes)
+            <input id="f-prep" type="number" min="1" max="1440" value="30" required />
+          </label>
+
+          <label>Servings
+            <input id="f-servings" type="number" min="1" max="100" value="4" required />
+          </label>
+        </div>
+
+        <label>Image URL (optional)
+          <input id="f-image" type="url" placeholder="https://images.unsplash.com/... (leave blank for automatic food photo)" maxlength="1000" />
+          <span class="muted" style="font-size: 0.8rem; font-weight: normal; margin-top: 2px;">Leave blank and we'll automatically select an appetizing photo for you.</span>
+        </label>
+
+        <fieldset>
+          <legend>Ingredients</legend>
+          <div id="ingredient-rows"></div>
+          <button type="button" id="add-ingredient" class="secondary">+ Add ingredient</button>
+        </fieldset>
+
+        <label>Cooking Instructions
+          <textarea id="f-instructions" rows="7" placeholder="Step-by-step instructions (e.g. 1. Heat oil... 2. Add spices...)" maxlength="5000" required></textarea>
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="save-btn">Save recipe</button>
+          <button type="button" id="cancel-form" class="secondary">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Login -->
+    <section id="view-login" class="view hidden">
+      <h2>Welcome Back</h2>
+      <p class="muted">Log in to add your own recipes and manage favorites.</p>
+      <form id="login-form" class="card form narrow">
+        <label>Email <input id="l-email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+        <label>Password <input id="l-password" type="password" autocomplete="current-password" placeholder="••••••••" required /></label>
+        <button type="submit" class="primary">Login</button>
+      </form>
+    </section>
+
+    <!-- Register -->
+    <section id="view-register" class="view hidden">
+      <h2>Create Your Account</h2>
+      <p class="muted">Register to start adding, editing, and bookmarking recipes.</p>
+      <form id="register-form" class="card form narrow">
+        <label>Name <input id="r-name" type="text" maxlength="60" autocomplete="name" placeholder="Your Name" required /></label>
+        <label>Email <input id="r-email" type="email" autocomplete="email" placeholder="you@example.com" required /></label>
+        <label>Password (min 8 characters) <input id="r-password" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required /></label>
+        <button type="submit" class="primary">Register</button>
+      </form>
+    </section>
+  </main>
+
+  <dialog id="confirm-dialog">
+    <form method="dialog">
+      <p id="confirm-text"></p>
+      <div class="actions">
+        <button value="yes" class="danger">Yes, delete</button>
+        <button value="no" class="secondary">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
