@@ -655,18 +655,47 @@ const LIVE_DISH_TEMPLATES = [
     reviews: [
       { author: "Sunil M.", rating: 5, date: "Just now", comment: "Tastes just like the famous Tibb's Frankie outside Mumbai colleges! Crisp roll and chatpata masala." }
     ]
+  },
+  {
+    match: ["fish fry", "tawa fish", "chepala vepudu", "crispy fish", "fried fish", "fish masala fry", "apollo fish", "fish fry recipe", "fish"],
+    title: "Andhra Crispy Tawa Fish Fry (Chepala Vepudu)",
+    description: "Famous coastal Andhra tawa fish fry: tender fish steaks coated in a fiery marinade of Guntur red chilies, ginger-garlic, roasted cumin, and fresh lemon, shallow-fried on a flat iron tawa to a crunchy golden crust with aromatic curry leaves.",
+    category: "Snack",
+    country: "India",
+    countryFlag: "🇮🇳",
+    prep_time_minutes: 20,
+    servings: 3,
+    image_url: "fish-fry.png",
+    instructions: "1. Clean fresh fish steaks and pat dry with paper towels.\n2. In a mixing bowl, blend Kashmiri red chili powder, spicy red chili, turmeric, ginger-garlic paste, coriander powder, roasted cumin, 1 tbsp rice flour (for ultimate crunch), salt, and fresh lemon juice into a thick marinade paste.\n3. Coat each fish steak generously on both sides and let rest for 20 minutes.\n4. Heat 3 tbsp oil on a flat cast-iron tawa; toss in fresh curry leaves and slit green chilies.\n5. Shallow fry the fish steaks on medium heat for 4-5 minutes per side until deeply browned and crispy.\n6. Squeeze fresh lemon juice over the hot fish and serve immediately with crunchy red onion rings and mint chutney!",
+    ingredients: [
+      { name: "Fresh fish steaks (Murrel, Vanjaram/Seer, or Rohu)", quantity: "500g" },
+      { name: "Ginger-garlic paste", quantity: "1.5 tbsp" },
+      { name: "Guntur & Kashmiri red chili powder", quantity: "2 tbsp" },
+      { name: "Turmeric & Roasted cumin powder", quantity: "1/2 tsp each" },
+      { name: "Coriander powder & Garam masala", quantity: "1 tbsp" },
+      { name: "Rice flour (for crispy crust)", quantity: "1.5 tbsp" },
+      { name: "Fresh lemon juice", quantity: "2 tbsp" },
+      { name: "Curry leaves & Slit green chilies", quantity: "2 sprigs" },
+      { name: "Oil for shallow tawa frying", quantity: "3-4 tbsp" }
+    ],
+    reviews: [
+      { author: "Suresh Reddy", rating: 5, date: "Just now", comment: "The crispy crust and juicy fish inside are perfection! No roadside stall can beat this." },
+      { author: "Kavitha P.", rating: 5, date: "Today", comment: "Incredible flavor! The curry leaves and lemon squeeze make it unforgettable." }
+    ]
   }
 ];
 
 const FOOD_IMAGE_MAP = [
+  { match: ["fish fry", "fried fish", "tawa fish", "chepala vepudu", "fish", "chepala", "prawn", "seafood"], url: "fish-fry.png" },
   { match: ["veg frankie", "frankie", "kathi roll", "roll", "wrap", "burrito"], url: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&fit=crop&w=800&q=80" },
   { match: ["maggi", "maggie", "noodle", "chow mein", "chowmein", "ramen"], url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=800&q=80" },
   { match: ["pakodi", "pakoda", "fritter", "bajji", "bhajiya", "bhaji", "vada", "bonda"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80" },
   { match: ["biryani", "pulao", "rice", "fried rice", "khichdi"], url: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" },
-  { match: ["curry", "paneer", "dal", "gravy", "masala", "korma", "kofta", "butter chicken"], url: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80" },
-  { match: ["chicken", "mutton", "fish", "meat", "kebab", "tikka", "tandoori"], url: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80" },
-  { match: ["pizza", "calzone"], url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80" },
-  { match: ["pasta", "spaghetti", "macaroni", "lasagna", "penne"], url: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80" },
+  { match: ["curry", "paneer", "dal", "gravy", "masala", "korma", "kofta"], url: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?auto=format&fit=crop&w=800&q=80" },
+  { match: ["chicken", "tandoori chicken", "tikka", "butter chicken"], url: "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80" },
+  { match: ["mutton", "meat", "kebab", "lamb", "gosht"], url: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" },
+  { match: ["pizza", "calzone"], url: "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?auto=format&fit=crop&w=800&q=80" },
+  { match: ["pasta", "spaghetti", "macaroni", "lasagna", "penne", "cacio"], url: "cacio-e-pepe.png" },
   { match: ["burger", "sandwich", "toast"], url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" },
   { match: ["cake", "pastry", "pudding", "halwa", "dessert", "sweet", "kheer", "ice cream", "gulab jamun"], url: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=800&q=80" },
   { match: ["shake", "drink", "lassi", "juice", "smoothie", "tea", "coffee", "soda", "sharbat"], url: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" },

@@ -471,7 +471,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 20,
     chef_points: 160,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80",
+    image_url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
     instructions: "1. In a bowl, mix rice flour, soaked chana dal, crushed green chili-ginger paste, cumin, and hot melted ghee.\n2. Add warm water gradually to form a non-sticky pliable dough.\n3. Divide into marble-sized balls and press thin on a greased plastic sheet or poori press.\n4. Prick lightly with a fork so they do not puff.\n5. Fry in hot oil on medium flame until bubbles cease and chekkalu turn light golden.",
     ingredients: [
       { name: "Rice flour", quantity: "2 cups" },
@@ -555,7 +555,7 @@ window.DEFAULT_RECIPES = [
     reviews_count: 23,
     chef_points: 165,
     chef_rank: "🥇 Master Chef",
-    image_url: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=800&q=80",
+    image_url: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80",
     instructions: "1. In a bowl, combine semolina (rava), rice flour, maida, sliced onions, minced ginger, curry leaves, and green chilies.\n2. Pour smoking hot oil over the flour mixture to make it flaky (moyan).\n3. Sprinkle warm water gradually to form a stiff dough.\n4. Flatten small portions into thin patties on greased paper.\n5. Deep-fry on medium flame until edges are shatteringly crisp and golden brown.",
     ingredients: [
       { name: "Semolina (Rava)", quantity: "1 cup" },
@@ -1497,6 +1497,39 @@ window.DEFAULT_RECIPES = [
     ],
     reviews: [
       { author: "Rahul Sengupta", rating: 5, date: "Yesterday", comment: "The contrast of piping hot soft gulab jamun melting with cold vanilla ice cream is pure bliss." }
+    ]
+  },
+  {
+    id: "seed-ind-54",
+    title: "Andhra Crispy Tawa Fish Fry (Chepala Vepudu)",
+    description: "Famous coastal Andhra tawa fish fry: tender fish steaks coated in a fiery marinade of red chili, ginger-garlic, roasted cumin, and fresh lemon, shallow-fried on a flat iron tawa to a crunchy golden crust with aromatic curry leaves.",
+    category: "Snack",
+    country: "India",
+    countryFlag: "🇮🇳",
+    prep_time_minutes: 20,
+    servings: 3,
+    author: "Executive Chef",
+    rating: 5.0,
+    reviews_count: 48,
+    chef_points: 210,
+    chef_rank: "👑 Grand Culinary Master",
+    image_url: "fish-fry.png",
+    instructions: "1. Clean and wash fish steaks thoroughly; pat completely dry with paper towels.\n2. In a bowl, prepare the marinade: mix Kashmiri red chili powder, spicy red chili, turmeric, ginger-garlic paste, coriander powder, roasted cumin, 1 tbsp rice flour (for crunch), salt, and fresh lemon juice into a thick paste.\n3. Coat each fish steak generously on both sides; allow to marinate for 20-30 minutes for flavors to penetrate deep.\n4. Heat 3 tablespoons of oil on a flat cast-iron tawa over medium flame. Toss in a sprig of fresh curry leaves to perfume the oil.\n5. Gently place the fish steaks onto the hot tawa. Shallow fry undisturbed for 4-5 minutes until the bottom crust is deeply golden and crispy.\n6. Flip carefully using a flat spatula and fry the other side for another 3-4 minutes.\n7. Toss in slit green chilies and additional curry leaves during the final minute.\n8. Transfer to a platter, squeeze fresh lemon juice on top, and serve piping hot with thinly sliced red onion rings and mint chutney!",
+    ingredients: [
+      { name: "Fresh fish steaks (Murrel, Vanjaram/Seer Fish, or Rohu)", quantity: "500g" },
+      { name: "Ginger-garlic paste", quantity: "1.5 tbsp" },
+      { name: "Kashmiri & Spicy red chili powder", quantity: "2 tbsp combined" },
+      { name: "Turmeric & Garam masala", quantity: "1/2 tsp each" },
+      { name: "Roasted cumin & Coriander powder", quantity: "1 tbsp" },
+      { name: "Rice flour or Corn flour (for crispiness)", quantity: "1.5 tbsp" },
+      { name: "Fresh lemon juice", quantity: "2 tbsp" },
+      { name: "Curry leaves & Slit green chilies", quantity: "2 sprigs" },
+      { name: "Oil for shallow tawa frying", quantity: "3-4 tbsp" },
+      { name: "Salt", quantity: "To taste" }
+    ],
+    reviews: [
+      { author: "Suresh Reddy", rating: 5, date: "Just now", comment: "Outstanding crust and so juicy inside! The curry leaf and lemon aroma makes it unbeatable." },
+      { author: "Kavitha P.", rating: 5, date: "Yesterday", comment: "Tastes exactly like Andhra highway dhaba fish fry! Perfectly crisp and spicy." }
     ]
   },
 
