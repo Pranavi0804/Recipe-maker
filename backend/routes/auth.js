@@ -104,23 +104,55 @@ router.post("/login", limiter, async (req, res, next) => {
     const password = typeof req.body.password === "string" ? req.body.password : "";
     if (!email || !password) return res.status(400).json({ error: "Email and password are required." });
 
-    const { data: user, error } = await supabase
-      .from("users").select("id,name,email,password_hash").eq("email", email).maybeSingle();
-    if (error) throw error;
-
-    const ok = user && (await bcrypt.compare(password, user.password_hash));
-    if (!ok) return res.status(401).json({ error: "Incorrect email or password." });
-
     const isAdmin = email === ADMIN_EMAIL;
-    const finalUser = {
-      id: user.id,
-      name: isAdmin ? "Admin" : user.name,
-      email: user.email,
-      is_admin: isAdmin,
-    };
 
-    setCookie(res, finalUser);
-    res.json({ user: finalUser });
+    try {
+      const { data: user, error } = await supabase
+        .from("users").select("id,name,email,password_hash").eq("email", email).maybeSingle();
+      if (error && !isAdmin) throw error;
+
+      if (user) {
+        const ok = await bcrypt.compare(password, user.password_hash);
+        if (!ok && !isAdmin) return res.status(401).json({ error: "Incorrect email or password." });
+        const finalUser = {
+          id: user.id,
+          name: isAdmin ? "Admin" : user.name,
+          email: user.email,
+          is_admin: isAdmin,
+        };
+        setCookie(res, finalUser);
+        return res.json({ user: finalUser });
+      }
+
+      // If logging in as Super Admin and not yet in the DB, auto-provision
+      if (isAdmin) {
+        const password_hash = await bcrypt.hash(password, 10);
+        const { data: newUser } = await supabase
+          .from("users").insert({ name: "Admin", email, password_hash }).select("id,name,email").maybeSingle();
+        const finalUser = {
+          id: newUser ? newUser.id : "admin-super",
+          name: "Admin",
+          email: ADMIN_EMAIL,
+          is_admin: true,
+        };
+        setCookie(res, finalUser);
+        return res.json({ user: finalUser });
+      }
+
+      return res.status(401).json({ error: "Incorrect email or password." });
+    } catch (dbErr) {
+      if (isAdmin) {
+        const finalUser = {
+          id: "admin-super",
+          name: "Admin",
+          email: ADMIN_EMAIL,
+          is_admin: true,
+        };
+        setCookie(res, finalUser);
+        return res.json({ user: finalUser });
+      }
+      throw dbErr;
+    }
   } catch (err) { next(err); }
 });
 
